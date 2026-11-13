@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="170" viewBox="0 0 820 170" role="img" aria-label="Contributions 102, current streak 4, longest streak 4">
+  <defs><radialGradient id="petal" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#dcdcdc"/><stop offset="1" stop-color="#a8a8a8"/></radialGradient><clipPath id="cl"><rect x=".5" y=".5" width="819" height="169" rx="10"/></clipPath></defs>
+  <style>
+    .row{opacity:0;animation:fade .5s ease-out forwards}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .div{transform-box:fill-box;transform-origin:center;transform:scaleY(0);animation:grow .7s .2s ease-out forwards}
+    @keyframes grow{to{transform:scaleY(1)}}
+    .ring{stroke-dasharray:251.3;stroke-dashoffset:251.3;animation:ring 1.4s .4s cubic-bezier(.4,.2,.2,1) forwards;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box}
+    @keyframes ring{to{stroke-dashoffset:0}}
+    .flame{transform-box:fill-box;transform-origin:bottom center;animation:flick 1.2s ease-in-out infinite alternate}
+    @keyframes flick{0%{transform:scale(1) rotate(-3deg)}100%{transform:scale(1.12,1.05) rotate(3deg)}}
+    
+  .sway{animation:sway ease-in-out infinite alternate}
+  .fall{transform-box:fill-box;transform-origin:center;animation:fall linear infinite;opacity:.9}
+  @keyframes sway{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
+  @keyframes fall{0%{transform:translateY(-30px) rotate(0deg) scale(var(--s))}100%{transform:translateY(var(--h)) rotate(540deg) scale(var(--s))}}
+  </style>
+  <rect x=".5" y=".5" width="819" height="169" rx="10" fill="#0b0b0b" stroke="#333333"/>
+  <g clip-path="url(#cl)" opacity=".6"><g transform="translate(5.2 0)"><g class="sway" style="animation-duration:4.3s;animation-delay:-4.1s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="url(#petal)" style="animation-duration:10.5s;animation-delay:-10.2s;--h:210px;--s:0.6"/></g></g><g transform="translate(604.1 0)"><g class="sway" style="animation-duration:3.2s;animation-delay:-1.7s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="url(#petal)" style="animation-duration:10.1s;animation-delay:-0.7s;--h:210px;--s:0.9"/></g></g><g transform="translate(421.7 0)"><g class="sway" style="animation-duration:4s;animation-delay:-3.4s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="#e6e6e6" style="animation-duration:10.2s;animation-delay:-5.1s;--h:210px;--s:1"/></g></g><g transform="translate(11.7 0)"><g class="sway" style="animation-duration:2.9s;animation-delay:-0.6s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="#e6e6e6" style="animation-duration:10.3s;animation-delay:-10.1s;--h:210px;--s:0.6"/></g></g><g transform="translate(32.1 0)"><g class="sway" style="animation-duration:3.3s;animation-delay:-0.1s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="url(#petal)" style="animation-duration:10.4s;animation-delay:-6.4s;--h:210px;--s:0.9"/></g></g><g transform="translate(685.1 0)"><g class="sway" style="animation-duration:2.9s;animation-delay:-0.3s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="url(#petal)" style="animation-duration:9.2s;animation-delay:-3.1s;--h:210px;--s:1.2"/></g></g></g>
+  <rect class="div" x="273.3333333333333" y="30" width="1" height="110" fill="#333333"/>
+  <rect class="div" x="546.6666666666666" y="30" width="1" height="110" fill="#333333"/>
+  
+  <g class="row" style="animation-delay:0.2s">
+    <text x="136.66666666666666" y="78" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="800" fill="#f5f5f5">102</text>
+    <text x="136.66666666666666" y="110" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#d6d6d6">Total Contributions</text>
+    <text x="136.66666666666666" y="134" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#8a8a8a">Last 12 months</text>
+  </g>
+  <g transform="translate(410 62)">
+    <circle r="40" fill="none" stroke="#333333" stroke-width="5"/>
+    <circle class="ring" r="40" fill="none" stroke="#f5f5f5" stroke-width="5"/>
+    <g transform="translate(0 -42)"><path class="flame" d="M0 -16 C6 -8 9 -4 9 2 C9 8 5 12 0 12 C-5 12 -9 8 -9 2 C-9 -3 -6 -6 -4 -10 C-3 -6 -1 -4 1 -4 C1 -8 0 -12 0 -16Z" fill="#f5f5f5" stroke="#0b0b0b" stroke-width="3" paint-order="stroke"/></g>
+    <text class="row" style="animation-delay:.9s" y="11" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="800" fill="#f5f5f5">4</text>
+  </g>
+  <g class="row" style="animation-delay:1s">
+    <text x="410" y="134" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="700" fill="#d6d6d6">Current Streak</text>
+    <text x="410" y="154" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#8a8a8a">10 Nov – 13 Nov</text>
+  </g>
+  
+  <g class="row" style="animation-delay:0.35s">
+    <text x="683.3333333333334" y="78" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="800" fill="#f5f5f5">4</text>
+    <text x="683.3333333333334" y="110" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#d6d6d6">Longest Streak</text>
+    <text x="683.3333333333334" y="134" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#8a8a8a">10 Nov – 13 Nov</text>
+  </g>
+</svg>
