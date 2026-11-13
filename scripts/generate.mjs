@@ -297,7 +297,7 @@ async function fetchData() {
   if (!TOKEN) return null;
   const query = `query($login:String!){user(login:$login){
     name login followers{totalCount}
-    contributionsCollection{totalCommitContributions restrictedContributionsCount totalPullRequestReviewContributions}
+    contributionsCollection{totalCommitContributions restrictedContributionsCount totalPullRequestReviewContributions contributionCalendar{totalContributions weeks{contributionDays{date contributionCount}}}}
     repositoriesContributedTo(first:1,contributionTypes:[COMMIT,ISSUE,PULL_REQUEST,REPOSITORY]){totalCount}
     pullRequests(first:1){totalCount}
     openIssues:issues(states:OPEN){totalCount} closedIssues:issues(states:CLOSED){totalCount}
@@ -413,12 +413,72 @@ function langsCard(langs, ready) {
 </svg>`;
 }
 
+function streakCard(d) {
+  const W = 820, H = 170, R = 40, CIRC = 2 * Math.PI * R;
+  const col = (cx, big, label, sub, delay) => `
+  <g class="row" style="animation-delay:${delay}s">
+    <text x="${cx}" y="78" text-anchor="middle" font-family="${SANS}" font-size="30" font-weight="800" fill="${C.white}">${esc(big)}</text>
+    <text x="${cx}" y="110" text-anchor="middle" font-family="${SANS}" font-size="14" font-weight="600" fill="${C.cyan}">${esc(label)}</text>
+    <text x="${cx}" y="134" text-anchor="middle" font-family="${SANS}" font-size="12" fill="${C.muted}">${esc(sub)}</text>
+  </g>`;
+  return `
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Contributions ${esc(d.total)}, current streak ${esc(d.current)}, longest streak ${esc(d.longest)}">
+  <defs>${PETAL_DEF}<clipPath id="cl"><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="10"/></clipPath></defs>
+  <style>
+    .row{opacity:0;animation:fade .5s ease-out forwards}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .div{transform-box:fill-box;transform-origin:center;transform:scaleY(0);animation:grow .7s .2s ease-out forwards}
+    @keyframes grow{to{transform:scaleY(1)}}
+    .ring{stroke-dasharray:${f(CIRC)};stroke-dashoffset:${f(CIRC)};animation:ring 1.4s .4s cubic-bezier(.4,.2,.2,1) forwards;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box}
+    @keyframes ring{to{stroke-dashoffset:0}}
+    .flame{transform-box:fill-box;transform-origin:bottom center;animation:flick 1.2s ease-in-out infinite alternate}
+    @keyframes flick{0%{transform:scale(1) rotate(-3deg)}100%{transform:scale(1.12,1.05) rotate(3deg)}}
+    ${PETAL_CSS}
+  </style>
+  <rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="10" fill="${C.bg}" stroke="${C.border}"/>
+  <g clip-path="url(#cl)" opacity=".6">${petals(6, W, H, { min: 7, max: 12 })}</g>
+  <rect class="div" x="${W / 3}" y="30" width="1" height="${H - 60}" fill="${C.border}"/>
+  <rect class="div" x="${(2 * W) / 3}" y="30" width="1" height="${H - 60}" fill="${C.border}"/>
+  ${col(W / 6, d.total, "Total Contributions", "Last 12 months", 0.2)}
+  <g transform="translate(${W / 2} 62)">
+    <circle r="${R}" fill="none" stroke="${C.border}" stroke-width="5"/>
+    <circle class="ring" r="${R}" fill="none" stroke="${C.white}" stroke-width="5"/>
+    <g transform="translate(0 -${R + 2})"><path class="flame" d="M0 -16 C6 -8 9 -4 9 2 C9 8 5 12 0 12 C-5 12 -9 8 -9 2 C-9 -3 -6 -6 -4 -10 C-3 -6 -1 -4 1 -4 C1 -8 0 -12 0 -16Z" fill="${C.white}" stroke="${C.bg}" stroke-width="3" paint-order="stroke"/></g>
+    <text class="row" style="animation-delay:.9s" y="11" text-anchor="middle" font-family="${SANS}" font-size="30" font-weight="800" fill="${C.white}">${esc(d.current)}</text>
+  </g>
+  <g class="row" style="animation-delay:1s">
+    <text x="${W / 2}" y="134" text-anchor="middle" font-family="${SANS}" font-size="14" font-weight="700" fill="${C.cyan}">Current Streak</text>
+    <text x="${W / 2}" y="154" text-anchor="middle" font-family="${SANS}" font-size="12" fill="${C.muted}">${esc(d.currentRange)}</text>
+  </g>
+  ${col((5 * W) / 6, d.longest, "Longest Streak", d.longestRange, 0.35)}
+</svg>`;
+}
+
+function streaks(weeks) {
+  const days = weeks.flatMap((w) => w.contributionDays);
+  const fmt = (s) => new Date(s + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  let longest = 0, lStart = null, lEnd = null, run = 0, rStart = null;
+  for (const d of days) {
+    if (d.contributionCount > 0) { if (!run) rStart = d.date; run++; if (run > longest) { longest = run; lStart = rStart; lEnd = d.date; } }
+    else run = 0;
+  }
+  let i = days.length - 1;
+  if (i >= 0 && days[i].contributionCount === 0) i--; // today may not have activity yet
+  let cur = 0, cEnd = days[i]?.date, cStart = cEnd;
+  while (i >= 0 && days[i].contributionCount > 0) { cur++; cStart = days[i].date; i--; }
+  return {
+    current: cur, currentRange: cur ? `${fmt(cStart)} – ${fmt(cEnd)}` : "Start one today",
+    longest, longestRange: longest ? `${fmt(lStart)} – ${fmt(lEnd)}` : "—",
+  };
+}
+
 /* ------------------------------------------------------------------ main */
 function placeholder(why) {
   if (existsSync(join(OUT, "stats.svg"))) return console.log(`• ${why} — kept existing stats`);
   // first run: placeholder cards that the workflow replaces with real numbers
   write("stats.svg", statsCard({ name: "Ananth Krishna J", stars: "…", commits: "…", prs: "…", issues: "…", contrib: "…", rank: { level: "✿", pct: 100 }, ready: false }));
   write("langs.svg", langsCard([{ name: "HTML", size: 4, color: "#ffffff" }, { name: "JavaScript", size: 3, color: "#cfcfcf" }, { name: "CSS", size: 2, color: "#a3a3a3" }, { name: "Python", size: 1, color: "#7a7a7a" }], false));
+  write("streak.svg", streakCard({ total: "…", current: "…", currentRange: "", longest: "…", longestRange: "" }));
   console.log(`• ${why} — wrote placeholder stats`);
 }
 write("hero.svg", hero());
@@ -451,6 +511,8 @@ try {
     langs.forEach((l, k) => (l.color = GREYS[k]));
     write("stats.svg", statsCard({ name: u.name || u.login, stars, commits, prs, issues, contrib, rank: rank({ commits, prs, issues, reviews, stars, followers }), ready: true }));
     write("langs.svg", langsCard(langs, true));
+    const cal = u.contributionsCollection.contributionCalendar;
+    write("streak.svg", streakCard({ total: cal.totalContributions, ...streaks(cal.weeks) }));
     console.log(`✓ stats: ★${stars} commits ${commits} PRs ${prs} issues ${issues} contrib ${contrib}; langs ${langs.map((l) => l.name).join(", ")}`);
   }
 } catch (e) {

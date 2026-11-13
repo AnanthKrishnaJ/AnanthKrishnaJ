@@ -27,7 +27,7 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com/?user=AnanthKrishnaJ&hide_border=true&background=0B0B0B&stroke=333333&ring=FFFFFF&fire=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&currStreakLabel=FFFFFF&sideLabels=D6D6D6&dates=8A8A8A" alt="GitHub streak" />
+  <img src="./assets/streak.svg" width="92%" alt="Contribution streak" />
 </p>
 
 ### ✦ Tools I reach for
