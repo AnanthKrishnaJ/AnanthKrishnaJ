@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="150" viewBox="0 0 420 150" role="img" aria-label="WTalk: Global real-time chat with built-in anti-NSFW and anti-abuse protection.">
+  <defs>
+    <linearGradient id="b" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="420" y2="150">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#333333"/><stop offset="1" stop-color="#d6d6d6"/>
+      <animateTransform attributeName="gradientTransform" type="rotate" values="0 210 75;360 210 75" dur="6s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="sh" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <clipPath id="cl"><rect x="1.5" y="1.5" width="417" height="147" rx="12"/></clipPath>
+    <radialGradient id="petal" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#dcdcdc"/><stop offset="1" stop-color="#a8a8a8"/></radialGradient>
+  </defs>
+  <style>
+    .in{opacity:0;animation:in .7s ease-out forwards}
+    @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .shine{animation:shine 5s ease-in-out infinite;animation-delay:1.2s}
+    @keyframes shine{0%{transform:translateX(-200px)}40%,100%{transform:translateX(520px)}}
+    .ico{transform-box:fill-box;transform-origin:center;animation:bob 2.6s ease-in-out infinite alternate}
+    @keyframes bob{from{transform:translateY(-2px) rotate(-6deg)}to{transform:translateY(2px) rotate(6deg)}}
+    
+  .sway{animation:sway ease-in-out infinite alternate}
+  .fall{transform-box:fill-box;transform-origin:center;animation:fall linear infinite;opacity:.9}
+  @keyframes sway{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
+  @keyframes fall{0%{transform:translateY(-30px) rotate(0deg) scale(var(--s))}100%{transform:translateY(var(--h)) rotate(540deg) scale(var(--s))}}
+  </style>
+  <rect x="1.5" y="1.5" width="417" height="147" rx="12" fill="#0b0b0b" stroke="url(#b)" stroke-width="2"/>
+  <g clip-path="url(#cl)">
+    <g opacity=".85"><g transform="translate(182.6 0)"><g class="sway" style="animation-duration:3.4s;animation-delay:-2.8s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="#e6e6e6" style="animation-duration:6.3s;animation-delay:-4s;--h:190px;--s:0.7"/></g></g><g transform="translate(8.6 0)"><g class="sway" style="animation-duration:3.8s;animation-delay:-3.2s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="url(#petal)" style="animation-duration:8.9s;animation-delay:-7.9s;--h:190px;--s:1.2"/></g></g><g transform="translate(115.6 0)"><g class="sway" style="animation-duration:2.7s;animation-delay:-0.2s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="#e6e6e6" style="animation-duration:7.9s;animation-delay:0s;--h:190px;--s:1"/></g></g><g transform="translate(216.7 0)"><g class="sway" style="animation-duration:3.8s;animation-delay:-0.9s"><path class="fall" d="M0 -7 C4 -11 9 -6 7 0 C5 6 1 9 0 10 C-1 9 -5 6 -7 0 C-9 -6 -4 -11 0 -7 Z" fill="#e6e6e6" style="animation-duration:6.9s;animation-delay:-2.5s;--h:190px;--s:0.6"/></g></g></g>
+    <g transform="skewX(-20)"><rect class="shine" x="0" y="0" width="140" height="150" fill="url(#sh)"/></g>
+  </g>
+  <text class="ico" x="26" y="47" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="700" fill="#f5f5f5">❝</text>
+  <g class="in" style="animation-delay:.1s"><text x="64" y="44" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="700" fill="#ffffff">WTalk</text></g>
+  <g class="in" style="animation-delay:.3s" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#d6d6d6">
+    <text x="24" y="80">Global real-time chat with built-in anti-NSFW and</text><text x="24" y="101">anti-abuse protection.</text>
+  </g>
+  <g class="in" style="animation-delay:.5s"><rect x="318" y="20" width="78" height="22" rx="11" fill="#171717" stroke="#bdbdbd" stroke-opacity=".5"/>
+  <text x="357" y="35.5" text-anchor="middle" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="600" fill="#bdbdbd">Web app</text></g>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="56" viewBox="0 0 900 56" role="img" aria-label="Artificial Intelligence student @ KTU | I build anime-flavoured web apps &amp; games | Currently forging ECLIPSE: The Last Kingdom | Single-file HTML tools are my love language | Fuelled by anime, playlists &amp; late-night commits">
+  <style>
+    #c0{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:t0 21s infinite}
+    @keyframes t0{0%{transform:scaleX(0)}0%{transform:scaleX(0);animation-timing-function:steps(37)}9%{transform:scaleX(1)}15.7%{transform:scaleX(1);animation-timing-function:steps(37)}18.6%{transform:scaleX(0)}100%{transform:scaleX(0)}}
+    #k0{opacity:0;animation:k0 21s infinite}
+    @keyframes k0{0%{transform:translateX(0);opacity:0}0%{transform:translateX(0);opacity:1;animation-timing-function:steps(37)}9%{transform:translateX(493px);opacity:1}15.7%{transform:translateX(493px);opacity:1;animation-timing-function:steps(37)}18.6%{transform:translateX(0);opacity:1}19.3%{transform:translateX(0);opacity:0}100%{transform:translateX(0);opacity:0}}
+    #c1{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:t1 21s infinite}
+    @keyframes t1{0%{transform:scaleX(0)}20%{transform:scaleX(0);animation-timing-function:steps(40)}29%{transform:scaleX(1)}35.7%{transform:scaleX(1);animation-timing-function:steps(40)}38.6%{transform:scaleX(0)}100%{transform:scaleX(0)}}
+    #k1{opacity:0;animation:k1 21s infinite}
+    @keyframes k1{0%,20%{transform:translateX(0);opacity:0}20%{transform:translateX(0);opacity:1;animation-timing-function:steps(40)}29%{transform:translateX(532px);opacity:1}35.7%{transform:translateX(532px);opacity:1;animation-timing-function:steps(40)}38.6%{transform:translateX(0);opacity:1}39.3%{transform:translateX(0);opacity:0}100%{transform:translateX(0);opacity:0}}
+    #c2{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:t2 21s infinite}
+    @keyframes t2{0%{transform:scaleX(0)}40%{transform:scaleX(0);animation-timing-function:steps(43)}49%{transform:scaleX(1)}55.7%{transform:scaleX(1);animation-timing-function:steps(43)}58.6%{transform:scaleX(0)}100%{transform:scaleX(0)}}
+    #k2{opacity:0;animation:k2 21s infinite}
+    @keyframes k2{0%,40%{transform:translateX(0);opacity:0}40%{transform:translateX(0);opacity:1;animation-timing-function:steps(43)}49%{transform:translateX(572px);opacity:1}55.7%{transform:translateX(572px);opacity:1;animation-timing-function:steps(43)}58.6%{transform:translateX(0);opacity:1}59.3%{transform:translateX(0);opacity:0}100%{transform:translateX(0);opacity:0}}
+    #c3{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:t3 21s infinite}
+    @keyframes t3{0%{transform:scaleX(0)}60%{transform:scaleX(0);animation-timing-function:steps(43)}69%{transform:scaleX(1)}75.7%{transform:scaleX(1);animation-timing-function:steps(43)}78.6%{transform:scaleX(0)}100%{transform:scaleX(0)}}
+    #k3{opacity:0;animation:k3 21s infinite}
+    @keyframes k3{0%,60%{transform:translateX(0);opacity:0}60%{transform:translateX(0);opacity:1;animation-timing-function:steps(43)}69%{transform:translateX(572px);opacity:1}75.7%{transform:translateX(572px);opacity:1;animation-timing-function:steps(43)}78.6%{transform:translateX(0);opacity:1}79.3%{transform:translateX(0);opacity:0}100%{transform:translateX(0);opacity:0}}
+    #c4{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:t4 21s infinite}
+    @keyframes t4{0%{transform:scaleX(0)}80%{transform:scaleX(0);animation-timing-function:steps(48)}89%{transform:scaleX(1)}95.7%{transform:scaleX(1);animation-timing-function:steps(48)}98.6%{transform:scaleX(0)}100%{transform:scaleX(0)}}
+    #k4{opacity:0;animation:k4 21s infinite}
+    @keyframes k4{0%,80%{transform:translateX(0);opacity:0}80%{transform:translateX(0);opacity:1;animation-timing-function:steps(48)}89%{transform:translateX(638px);opacity:1}95.7%{transform:translateX(638px);opacity:1;animation-timing-function:steps(48)}98.6%{transform:translateX(0);opacity:1}99.3%{transform:translateX(0);opacity:0}100%{transform:translateX(0);opacity:0}}
+    .caret{animation:blink .8s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+  </style>
+  <clipPath id="cp0"><rect id="c0" x="204" y="0" width="493" height="56"/></clipPath>
+    <text x="204" y="36" clip-path="url(#cp0)" font-family="'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace" font-size="22" font-weight="600" fill="#ffffff">Artificial Intelligence student @ KTU</text>
+    <g id="k0"><rect class="caret" x="206" y="14" width="3" height="28" fill="#bdbdbd"/></g><clipPath id="cp1"><rect id="c1" x="184" y="0" width="532" height="56"/></clipPath>
+    <text x="184" y="36" clip-path="url(#cp1)" font-family="'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace" font-size="22" font-weight="600" fill="#d6d6d6">I build anime-flavoured web apps &amp; games</text>
+    <g id="k1"><rect class="caret" x="186" y="14" width="3" height="28" fill="#bdbdbd"/></g><clipPath id="cp2"><rect id="c2" x="164" y="0" width="572" height="56"/></clipPath>
+    <text x="164" y="36" clip-path="url(#cp2)" font-family="'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace" font-size="22" font-weight="600" fill="#ffffff">Currently forging ECLIPSE: The Last Kingdom</text>
+    <g id="k2"><rect class="caret" x="166" y="14" width="3" height="28" fill="#bdbdbd"/></g><clipPath id="cp3"><rect id="c3" x="164" y="0" width="572" height="56"/></clipPath>
+    <text x="164" y="36" clip-path="url(#cp3)" font-family="'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace" font-size="22" font-weight="600" fill="#d6d6d6">Single-file HTML tools are my love language</text>
+    <g id="k3"><rect class="caret" x="166" y="14" width="3" height="28" fill="#bdbdbd"/></g><clipPath id="cp4"><rect id="c4" x="131" y="0" width="638" height="56"/></clipPath>
+    <text x="131" y="36" clip-path="url(#cp4)" font-family="'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace" font-size="22" font-weight="600" fill="#ffffff">Fuelled by anime, playlists &amp; late-night commits</text>
+    <g id="k4"><rect class="caret" x="133" y="14" width="3" height="28" fill="#bdbdbd"/></g>
+</svg>
