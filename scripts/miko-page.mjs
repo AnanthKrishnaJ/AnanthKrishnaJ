@@ -1,0 +1,196 @@
+// Builds miko/index.html: an interactive pixel Miko you can tap.
+// Uses the same sprite + font data as the README art (scripts/pixel.mjs).
+//   node scripts/miko-page.mjs
+import { writeFileSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { G, MIKO, MIKO_PAL, MIKO_FX, FX_PAL } from "./pixel.mjs";
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+mkdirSync(join(ROOT, "miko"), { recursive: true });
+
+const DATA = JSON.stringify({ G, MIKO, PAL: MIKO_PAL, FX: MIKO_FX, FXPAL: FX_PAL });
+
+const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MIKO.EXE — tap Miko</title>
+<meta name="description" content="Pat, poke and pester Kiyanagi Miko, the tsundere pixel girl who lives in Ananth's computer.">
+<meta name="theme-color" content="#0b0b0b">
+<style>
+  :root{--bg:#0b0b0b;--fg:#f5f5f5;--grey:#8a8a8a;--pink:#f7a8c6;--line:#3a3a3a}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,Menlo,Consolas,monospace}
+  body{min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:16px 12px 28px;
+    background-image:radial-gradient(#1c1c1c 1px,transparent 1px);background-size:16px 16px}
+  .win{width:min(520px,100%);border:4px solid var(--fg);background:#141014;box-shadow:8px 8px 0 #000}
+  .bar{display:flex;align-items:center;justify-content:space-between;background:var(--fg);padding:4px 6px}
+  canvas{display:block;width:100%;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:manipulation;cursor:pointer}
+  .bar canvas{width:auto;height:16px;cursor:default}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:min(520px,100%);margin-top:12px}
+  button{font:inherit;background:var(--bg);color:var(--fg);border:3px solid var(--line);padding:0;cursor:pointer}
+  button:active{transform:translate(2px,2px);border-color:var(--pink)}
+  button canvas{height:14px;max-width:86%;width:auto;margin:12px auto;cursor:pointer}
+  .meta{width:min(520px,100%);margin-top:12px;display:flex;align-items:center;gap:10px}
+  .meta canvas{width:auto;height:14px;cursor:default}
+  .hearts{flex:1;height:14px;border:3px solid var(--grey);background:#1c1c1c;position:relative}
+  .hearts i{position:absolute;inset:0;width:0;background:var(--pink);transition:width .3s steps(6)}
+  a{color:var(--grey)} footer{margin-top:16px;font-size:12px;color:var(--grey);text-align:center}
+</style>
+</head>
+<body>
+  <div class="win">
+    <div class="bar"><canvas id="title" width="120" height="7"></canvas><canvas id="xbtn" width="17" height="7"></canvas></div>
+    <canvas id="c" width="160" height="196" aria-label="Pixel Miko. Tap her head, cheeks, ribbons or body."></canvas>
+  </div>
+  <div class="row">
+    <button data-act="pat"><canvas width="17" height="7" data-t="PAT"></canvas></button>
+    <button data-act="poke"><canvas width="23" height="7" data-t="POKE"></canvas></button>
+    <button data-act="coffee"><canvas width="35" height="7" data-t="COFFEE"></canvas></button>
+    <button data-act="praise"><canvas width="35" height="7" data-t="PRAISE"></canvas></button>
+  </div>
+  <div class="meta"><canvas id="lvl" width="70" height="7"></canvas><div class="hearts"><i id="hb"></i></div><canvas id="cnt" width="40" height="7"></canvas></div>
+  <footer>Tap Miko anywhere: head, cheeks, ribbons… · <a href="https://github.com/AnanthKrishnaJ">back to Ananth's profile</a></footer>
+
+<script>
+const D = ${DATA};
+const $ = (id) => document.getElementById(id);
+
+// ---- bitmap font ----
+function text(ctx, str, x, y, color, s = 1) {
+  ctx.fillStyle = color;
+  [...String(str).toUpperCase()].forEach((ch, i) => {
+    const g = D.G[ch] || D.G["?"];
+    g.forEach((row, ry) => { for (let rx = 0; rx < 5; rx++) if (row[rx] === "#") ctx.fillRect(x + (i * 6 + rx) * s, y + ry * s, s, s); });
+  });
+}
+const tw = (str, s = 1) => (String(str).length * 6 - 1) * s;
+function label(cv, str, color) { const x = cv.getContext("2d"); cv.width = tw(str); x.clearRect(0, 0, cv.width, 7); text(x, str, 0, 0, color); }
+label($("title"), "MIKO.EXE", "#0b0b0b"); label($("xbtn"), "_ X", "#0b0b0b");
+document.querySelectorAll("button canvas").forEach((cv) => label(cv, cv.dataset.t, "#f5f5f5"));
+
+// ---- sprite ----
+function sprite(ctx, rows, pal, ox, oy) {
+  rows.forEach((row, y) => { for (let x = 0; x < row.length; x++) { const c = pal[row[x]]; if (c) { ctx.fillStyle = c; ctx.fillRect(ox + x, oy + y, 1, 1); } } });
+}
+
+const cv = $("c"), ctx = cv.getContext("2d");
+const S = 4, MX = 32, MY = 40; // Miko drawn at 4x inside a 160x176 canvas
+let mood = null, moodUntil = 0, say = "", sayStart = 0, popup = false;
+let parts = [];
+let save = { pats: 0, aff: 0 };
+try { save = { ...save, ...JSON.parse(localStorage.getItem("miko-save") || "{}") }; } catch (e) {}
+const persist = () => { try { localStorage.setItem("miko-save", JSON.stringify(save)); } catch (e) {} };
+
+const LINES = {
+  idle: ["...WHAT? I'M CODING.", "DON'T JUST STARE.", "TAP ME AND SEE.", "...HI. I GUESS."],
+  pat: ["H-HEY! WHO SAID YOU COULD PAT ME?!", "...FINE. ONE MORE.", "IT'S NOT LIKE I LIKE IT!", "HMPH. YOUR HANDS ARE WARM...", "B-BAKA! ...DO IT AGAIN."],
+  poke: ["STOP POKING ME, BAKA!", "I'M NOT A BUTTON!", "POKE AGAIN = SEGFAULT.", "DO YOU WANT A BUG REPORT?!"],
+  ribbon: ["DON'T TOUCH THE RIBBONS!", "THEY'RE NOT ANTENNAS!", "RIBBON INTEGRITY: 87%."],
+  body: ["YOU NEED SOMETHING?", "I'M BUSY COMPILING.", "...NOT THAT I WAS WAITING."],
+  coffee: ["C-COFFEE? FOR ME? ...THANKS.", "CAFFEINE: OPTIMAL. HMPH.", "IT'S TOO SWEET. ...I'LL DRINK IT."],
+  praise: ["Y-YOU CAN'T JUST SAY THAT!", "ERROR: HEART OVERFLOW!", "S-SHUT UP! ...THANK YOU."],
+};
+const FACE = { pat: "smug", poke: "pout", ribbon: "fluster", body: null, coffee: "smug", praise: "fluster", idle: null };
+const GAIN = { pat: 3, poke: -1, ribbon: 1, body: 1, coffee: 4, praise: 5 };
+const RANKS = [[0, "STRANGER"], [15, "CO-WORKER"], [40, "FRIEND"], [80, "BESTIE"], [140, "???"]];
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+
+function act(kind, px, py) {
+  mood = kind; moodUntil = performance.now() + 2400;
+  say = pick(LINES[kind]); sayStart = performance.now();
+  popup = kind === "praise";
+  save.aff = Math.max(0, save.aff + GAIN[kind]);
+  if (kind === "pat") save.pats++;
+  persist(); hud();
+  const n = kind === "poke" ? 2 : 5;
+  for (let i = 0; i < n; i++) parts.push({ x: (px ?? 80) + (Math.random() * 24 - 12), y: (py ?? 40), vy: -0.4 - Math.random() * 0.5, t: 0, k: kind === "poke" ? "anger" : kind === "coffee" ? "steam" : "heart" });
+  if (navigator.vibrate) navigator.vibrate(kind === "poke" ? 30 : 12);
+}
+
+function hud() {
+  const rank = RANKS.filter((r) => save.aff >= r[0]).pop()[1];
+  label($("lvl"), rank, "#f7a8c6");
+  label($("cnt"), "PATS " + save.pats, "#8a8a8a");
+  const next = RANKS.find((r) => r[0] > save.aff);
+  const prev = RANKS.filter((r) => save.aff >= r[0]).pop()[0];
+  $("hb").style.width = next ? ((save.aff - prev) / (next[0] - prev)) * 100 + "%" : "100%";
+}
+hud();
+
+// where on Miko was tapped (sprite grid is 24x30)
+cv.addEventListener("pointerdown", (e) => {
+  const r = cv.getBoundingClientRect();
+  const x = ((e.clientX - r.left) / r.width) * cv.width, y = ((e.clientY - r.top) / r.height) * cv.height;
+  const gx = (x - MX) / S, gy = (y - MY) / S;
+  if (gx < 0 || gx > 24 || gy < 0 || gy > 30) return act("body", x, y);
+  if (gy < 5 && (gx < 8 || gx > 16)) return act("ribbon", x, y);
+  if (gy < 10) return act("pat", x, y);
+  if (gy < 18) return act("poke", x, y);
+  act("body", x, y);
+});
+document.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => act(b.dataset.act)));
+
+const heart = (x, y, c) => { ctx.fillStyle = c; [[1,0],[2,0],[4,0],[5,0],[0,1],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[1,2],[2,2],[3,2],[4,2],[5,2],[2,3],[3,3],[4,3],[3,4]].forEach(([a,b]) => ctx.fillRect(x+a, y+b, 1, 1)); };
+
+function bubble(str, now) {
+  const shown = str.slice(0, Math.floor((now - sayStart) / 35));
+  const words = shown.split(" "); const lines = []; let cur = "";
+  for (const w of words) { if ((cur + " " + w).trim().length > 24) { lines.push(cur.trim()); cur = w; } else cur += " " + w; }
+  if (cur.trim()) lines.push(cur.trim());
+  const h = 6 + lines.length * 9;
+  ctx.fillStyle = "#f5f5f5"; ctx.fillRect(6, 4, 148, h); ctx.fillRect(100, 4 + h, 6, 3);
+  lines.forEach((l, i) => text(ctx, l, 10, 8 + i * 9, "#0b0b0b"));
+}
+
+let last = 0;
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (now - last < 1000 / 30) return; last = now;
+  ctx.fillStyle = "#17121c"; ctx.fillRect(0, 0, cv.width, cv.height);
+  // window + moon
+  ctx.fillStyle = "#0e1830"; ctx.fillRect(134, 70, 22, 30); ctx.fillStyle = "#fff6c8"; ctx.fillRect(146, 74, 5, 5); ctx.fillStyle = "#0e1830"; ctx.fillRect(144, 74, 3, 3);
+  ctx.fillStyle = "#4a4a5a"; ctx.fillRect(134, 84, 22, 2);
+  ctx.fillStyle = "#0e1830"; ctx.fillRect(4, 70, 22, 30); ctx.fillStyle = "#4a4a5a"; ctx.fillRect(4, 84, 22, 2); ctx.fillStyle = "#f5f5f5"; ctx.fillRect(10, 76, 1, 1); ctx.fillRect(18, 90, 1, 1); ctx.fillRect(21, 74, 1, 1);
+  const active = mood && now < moodUntil;
+  if (!active) { mood = null; popup = false; }
+  // Miko (bob; squish down while patted; shake while poked)
+  let ox = MX, oy = MY + (Math.floor(now / 500) % 2);
+  if (mood === "pat") oy += 2;
+  if (mood === "poke") ox += Math.floor(now / 60) % 2 ? 1 : -1;
+  if (mood === "ribbon") oy += Math.floor(now / 120) % 2;
+  ctx.save(); ctx.translate(ox, oy); ctx.scale(S, S);
+  sprite(ctx, D.MIKO, D.PAL, 0, 0);
+  const fx = active ? FACE[mood] : (now % 3600 < 160 ? "blink" : null);
+  if (fx) sprite(ctx, D.FX[fx], D.FXPAL, 0, 0);
+  if (mood === "poke") { ctx.fillStyle = "#ff6b7a"; [[19,2],[21,2],[20,3],[19,4],[21,4]].forEach(([a,b]) => ctx.fillRect(a,b,1,1)); }
+  if (mood === "praise") { ctx.fillStyle = "#7ac8ff"; ctx.fillRect(20, 8, 1, 2); ctx.fillRect(19, 9, 3, 2); }
+  if (mood === "coffee") { ctx.fillStyle = "#f5f5f5"; ctx.fillRect(16, 21, 5, 5); ctx.fillStyle = "#f7a8c6"; ctx.fillRect(17, 22, 2, 2); }
+  ctx.restore();
+  // desk
+  ctx.fillStyle = "#8a6248"; ctx.fillRect(0, 168, 160, 4); ctx.fillStyle = "#5a3e2e"; ctx.fillRect(0, 172, 160, 24);
+  // particles
+  parts = parts.filter((p) => (p.t += 1) < 50);
+  for (const p of parts) {
+    p.y += p.vy;
+    if (p.k === "heart") heart(Math.round(p.x), Math.round(p.y), p.t % 10 < 5 ? "#f7a8c6" : "#ffffff");
+    else if (p.k === "anger") text(ctx, "#", Math.round(p.x), Math.round(p.y), "#ff6b7a");
+    else { ctx.fillStyle = "#aaaaaa"; ctx.fillRect(Math.round(p.x + Math.sin(p.t / 4) * 2), Math.round(p.y), 1, 3); }
+  }
+  // popup for praise
+  if (popup) {
+    ctx.fillStyle = "#000"; ctx.fillRect(28, 154, 108, 34); ctx.fillStyle = "#f5f5f5"; ctx.fillRect(26, 152, 108, 34); ctx.fillStyle = "#ff6b7a"; ctx.fillRect(26, 152, 108, 9);
+    text(ctx, "MIKO.EXE", 29, 153, "#0b0b0b"); text(ctx, "NOT RESPONDING", 29, 165, "#0b0b0b"); text(ctx, "HEART RATE: 404", 29, 175, "#555555");
+  }
+  bubble(say || pick(LINES.idle), now);
+}
+say = "...WHAT? DON'T JUST STARE. TAP ME."; sayStart = performance.now();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
+`;
+writeFileSync(join(ROOT, "miko", "index.html"), html);
+console.log("wrote miko/index.html");

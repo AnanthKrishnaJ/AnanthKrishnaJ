@@ -4,9 +4,12 @@
   .bl{animation:bl 3.2s infinite;animation-timing-function:steps(1,end)}@keyframes bl{0%{opacity:0}90%{opacity:1}95%,100%{opacity:0}}
   .tw{animation:tw 1s infinite;animation-timing-function:steps(1,end)}@keyframes tw{0%{opacity:1}50%{opacity:.15}}
   .a{animation:a 2s infinite;animation-timing-function:steps(1,end)}@keyframes a{0%{opacity:1}50%,100%{opacity:0}}
-  .b{animation:b 2s infinite;animation-timing-function:steps(1,end)}@keyframes b{0%{opacity:0}50%{opacity:1}100%{opacity:1}}.cur{animation:cur 3s infinite;animation-timing-function:steps(1,end)}@keyframes cur{0%{transform:translateY(0)}25%{transform:translateY(14px)}50%,100%{transform:translateY(28px)}}
+  .b{animation:b 2s infinite;animation-timing-function:steps(1,end)}@keyframes b{0%{opacity:0}50%{opacity:1}100%{opacity:1}}.mar{animation:mar .6s steps(2,end) infinite}@keyframes mar{to{transform:translateX(8px)}}
+  .f3a,.f3b,.f3c{opacity:0;animation:f3 1.5s infinite;animation-timing-function:steps(1,end)}.f3b{animation-delay:-1s}.f3c{animation-delay:-.5s}@keyframes f3{0%{opacity:1}33.3%,100%{opacity:0}}
+  .rise{animation:rise 1.6s steps(6,end) infinite}@keyframes rise{from{transform:translateY(10px);opacity:1}to{transform:translateY(-26px);opacity:0}}
+  .hop{animation:hop .6s infinite;animation-timing-function:steps(1,end)}@keyframes hop{0%{transform:translateY(0)}50%{transform:translateY(-6px)}}.cur{animation:cur 3s infinite;animation-timing-function:steps(1,end)}@keyframes cur{0%{transform:translateY(0)}25%{transform:translateY(14px)}50%,100%{transform:translateY(28px)}}
           .ok{opacity:0;animation:ok 3s infinite;animation-timing-function:steps(1,end)}@keyframes ok{0%{opacity:0}60%{opacity:1}}
-    .edge{animation:edge 2.4s infinite;animation-timing-function:steps(1,end);animation-delay:-1.2s}@keyframes edge{0%{opacity:0}80%{opacity:1}90%,100%{opacity:0}}
+    .edge{animation:edge 2.4s infinite;animation-timing-function:steps(1,end);animation-delay:-2.4s}@keyframes edge{0%{opacity:0}80%{opacity:1}90%,100%{opacity:0}}
   </style>
   <defs><clipPath id="p"><rect x="14" y="14" width="152" height="142"/></clipPath></defs>
   <path fill="#3a3a3a" d="M4 0h412v4h-412zM4 166h412v4h-412zM0 4h4v162h-4zM416 4h4v162h-4z"/><path fill="#0b0b0b" d="M4 4h412v162h-412z"/>

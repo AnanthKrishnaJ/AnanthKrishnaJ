@@ -65,6 +65,14 @@ const headers = {
      @keyframes peek{0%{transform:translateY(60px)}20%{transform:translateY(40px)}25%{transform:translateY(20px)}30%{transform:translateY(0)}75%{transform:translateY(20px)}80%{transform:translateY(40px)}85%,100%{transform:translateY(60px)}}
      .ex{animation:ex 4s infinite;${STEP}}@keyframes ex{0%{opacity:0}32%{opacity:1}36%{opacity:0}40%{opacity:1}72%,100%{opacity:0}}`),
 
+  // work-in-progress: Miko with a hard hat and a loading bar
+  wip: frame("IN PROGRESS", `
+    <g transform="translate(700 12)"><g class="bob">${miko(0, 0)}<path fill="#e0c060" d="M8 0h32v4h4v6h-40v-6h4z"/><rect x="2" y="8" width="44" height="4" fill="#b08a20"/></g></g>
+    <rect x="560" y="46" width="120" height="14" fill="#3a3a3a"/><rect class="ld" x="563" y="49" width="114" height="8" fill="${PINK}"/>
+    <g class="dots">${pxText("LOADING...", 560, 24, 2, GREY)}</g>`,
+    `.ld{transform-box:fill-box;transform-origin:left;animation:ld 3s steps(10,end) infinite}@keyframes ld{from{transform:scaleX(.05)}to{transform:scaleX(1)}}
+     .dots{animation:ar 1s infinite;${STEP}}`),
+
   // hungry Miko waiting for the commits
   snake: frame("MIKO VS MY COMMITS", `
     <g transform="translate(730 14)"><g class="bob">${miko(0, 0, "smug")}</g></g>

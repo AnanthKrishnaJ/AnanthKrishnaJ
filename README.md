@@ -22,7 +22,8 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 - ✦ Comfortable in HTML, CSS, JavaScript and Python
 
 <p align="center">
-  <img src="./assets/pixel/miko-desk.svg" width="100%" alt="Pixel-art Miko living inside a retro computer, coding at her desk until the build succeeds" />
+  <a href="https://ananthkrishnaj.github.io/AnanthKrishnaJ/miko/"><img src="./assets/pixel/miko-desk.svg" width="100%" alt="Pixel-art Miko living inside a retro computer, coding at her desk until the build succeeds. Tap to interact with her." /></a>
+  <br><sub>👆 <b><a href="https://ananthkrishnaj.github.io/AnanthKrishnaJ/miko/">Tap Miko</a></b> to pat, poke or bribe her with coffee</sub>
 </p>
 
 <p align="center">
@@ -43,14 +44,42 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 <p align="center"><img src="./assets/pixel/h-built.svg" width="100%" alt="Things I've built" /></p>
 
 <p align="center">
-  <a href="https://github.com/AnanthKrishnaJ/eclipse-the-last-kingdom"><img src="./assets/pixel/cards/eclipse.svg" width="49%" alt="ECLIPSE: The Last Kingdom" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/zxvi-oneai-toolkit"><img src="./assets/pixel/cards/zxvi.svg" width="49%" alt="ZXVI OneAI Toolkit" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/WTalk"><img src="./assets/pixel/cards/wtalk.svg" width="49%" alt="WTalk" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/anime-shelf"><img src="./assets/pixel/cards/anime-shelf.svg" width="49%" alt="Anime Shelf" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/Airi"><img src="./assets/pixel/cards/airi.svg" width="49%" alt="Airi" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/Anime-Guessing-Game"><img src="./assets/pixel/cards/anime-guess.svg" width="49%" alt="Anime Guessing Game" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/s7-ai-pyq-bank"><img src="./assets/pixel/cards/pyq.svg" width="49%" alt="S7 AI PYQ Bank" /></a>
-  <a href="https://github.com/AnanthKrishnaJ/RPS"><img src="./assets/pixel/cards/rps.svg" width="49%" alt="Rock Paper Scissors" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/s7-ai-pyq-bank"><img src="./assets/pixel/cards/pyq.svg" width="49%" alt="S7 Ai Pyq Bank: Ktu s7 past questions with answers" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/anime-shelf"><img src="./assets/pixel/cards/anime-shelf.svg" width="49%" alt="Anime Shelf: My anilist as an animated storefront" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/deep-learning-lab-viva"><img src="./assets/pixel/cards/dl-viva.svg" width="49%" alt="Deep Learning Lab: 11 experiments + viva mcq practice" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/eclipse-the-last-kingdom"><img src="./assets/pixel/cards/eclipse.svg" width="49%" alt="Eclipse: The Last Kingdom: Pixel action rpg in one html file" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/WTalk"><img src="./assets/pixel/cards/wtalk.svg" width="49%" alt="Wtalk: Global real-time chat with anti-abuse" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/RPS"><img src="./assets/pixel/cards/rps.svg" width="49%" alt="Rock Paper Scissors: Mirror match: all draws" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/eclipse-evolution-wiki"><img src="./assets/pixel/cards/eclipse-wiki.svg" width="49%" alt="Eclipse Evolution Wiki: All 112 powers and how they evolve" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/zxvi-oneai-toolkit"><img src="./assets/pixel/cards/zxvi.svg" width="49%" alt="Zxvi Oneai Toolkit: 220 offline tools in one html file" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/Airi"><img src="./assets/pixel/cards/airi.svg" width="49%" alt="Airi: Mcq and aptitude exam practice app" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/Uma-Sus-Cup-Tracker"><img src="./assets/pixel/cards/uma.svg" width="49%" alt="Uma Sus Cup Tracker: Uma musume cup results tracker" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/myrpggame"><img src="./assets/pixel/cards/myrpggame.svg" width="49%" alt="My Rpg Game: Open-world turn-based fantasy rpg" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/useless-evolution1"><img src="./assets/pixel/cards/useless-evo.svg" width="49%" alt="Useless Evolution Sim: Life evolves pointless traits" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/jigsaw-solver"><img src="./assets/pixel/cards/jigsaw.svg" width="49%" alt="Jigsaw Auto Solver: Solves jigsaw planet in one click" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/auto-solver-hextris"><img src="./assets/pixel/cards/hextris.svg" width="49%" alt="Auto Solver Hextris: Hextris that plays itself" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/solver1"><img src="./assets/pixel/cards/wordsearch.svg" width="49%" alt="Word Search Solver: Finds every word in the grid" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/spotimer"><img src="./assets/pixel/cards/spotimer.svg" width="49%" alt="Spotimer: My spotify listening time and top artists" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/LabRoboticsAIT332"><img src="./assets/pixel/cards/robotics.svg" width="49%" alt="Robotics Lab Viva: Ait332 viva flashcards" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/ccw-scholar"><img src="./assets/pixel/cards/ccw.svg" width="49%" alt="Ccw Scholar: Course work quiz platform" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/Mei"><img src="./assets/pixel/cards/mei.svg" width="49%" alt="Mei: Multilingual game-chat toxicity detector" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/MCwebmake"><img src="./assets/pixel/cards/mcweb.svg" width="49%" alt="Mcwebmake: A burger joint website we made" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/Ananathprofile"><img src="./assets/pixel/cards/oldprofile.svg" width="49%" alt="Ananathprofile: My first portfolio, made for fun" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/Anime-Guessing-Game"><img src="./assets/pixel/cards/anime-guess.svg" width="49%" alt="Anime Guessing Game: How well do you know your anime?" /></a>
+</p>
+
+<p align="center"><img src="./assets/pixel/h-wip.svg" width="100%" alt="In progress" /></p>
+
+<p align="center">
+  <img src="./assets/pixel/cards/miko-exe.svg" width="49%" alt="Miko.Exe (in progress): Tsundere desktop-mascot shorts" />
+  <img src="./assets/pixel/cards/yadav.svg" width="49%" alt="Yadav Shawarma Simulator (in progress): Tap game, live leaderboard" />
+  <img src="./assets/pixel/cards/navaneeth.svg" width="49%" alt="Navaneeth Rock Simulator (in progress): Raise a pixel pet rock" />
+  <img src="./assets/pixel/cards/inkborn.svg" width="49%" alt="Inkborn (in progress): Stickman fight shorts" />
+  <img src="./assets/pixel/cards/zxvi-voice.svg" width="49%" alt="Zxvi Voice (in progress): Multilingual ai voice generator" />
+  <img src="./assets/pixel/cards/marin.svg" width="49%" alt="Marin Aura Bank (in progress): Discord aura economy bot" />
+  <img src="./assets/pixel/cards/yuka.svg" width="49%" alt="Yuka Shorts (in progress): 3d chibi daily-life comedy" />
+  <img src="./assets/pixel/cards/ananthimation.svg" width="49%" alt="Ananthimation (in progress): Emotional pixel-rpg story shorts" />
+  <img src="./assets/pixel/cards/vocaloid.svg" width="49%" alt="My Own Vocaloid (in progress): Building my own virtual singer" />
 </p>
 
 <p align="center"><img src="./assets/pixel/h-snake.svg" width="100%" alt="Miko vs my contributions" /></p>
