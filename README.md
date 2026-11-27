@@ -2,6 +2,8 @@
   <img src="./assets/pixel/hero.svg" width="100%" alt="ANANTH KRISHNA J — pixel game title screen: AI student @ KTU, game maker, web builder, anime enjoyer. Miko waves from a rooftop over a dusk city." />
 </p>
 
+<p align="center"><img src="./assets/pixel/ticker.svg" width="100%" alt="Ananth OS ticker: Miko is watching, new builds soon, tsundere approved" /></p>
+
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=AnanthKrishnaJ&label=Profile%20views&color=000000&style=for-the-badge" alt="Profile views" />
 </p>
@@ -20,6 +22,8 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 <p align="center">
   <img src="./assets/pixel/miko-desk.svg" width="100%" alt="Pixel-art Miko living inside a retro computer, coding at her desk until the build succeeds" />
 </p>
+
+<p align="center"><img src="./assets/pixel/hud.svg" width="100%" alt="Player 1 Ananth: 22 of 31 projects shipped, level 22" /></p>
 
 <p align="center"><img src="./assets/pixel/h-talk.svg" width="100%" alt="Talk to Miko" /></p>
 
@@ -85,6 +89,8 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 <p align="center">
   <img src="./assets/stack.svg" width="100%" alt="HTML, CSS, JavaScript, Python, Git, GitHub, Vercel, Godot, VS Code" />
 </p>
+
+<p align="center"><img src="./assets/pixel/achievements.svg" width="100%" alt="Achievements unlocked: 22 built, in progress, anime fan, Miko's creator" /></p>
 
 <p align="center"><img src="./assets/pixel/h-built.svg" width="100%" alt="Things I've built" /></p>
 
