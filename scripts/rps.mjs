@@ -11,6 +11,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomInt } from "node:crypto";
+import { pxText, textWidth, sprite, pxBox, HANDS, HAND_PAL, BOT, BOT_PAL, BOT_FACES } from "./pixel.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "data", "rps.json");
@@ -24,8 +25,6 @@ const REPO = process.env.GITHUB_REPOSITORY || "AnanthKrishnaJ/AnanthKrishnaJ";
 const MOVES = ["rock", "paper", "scissors"];
 const BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
 const EMOJI = { rock: "🪨", paper: "📄", scissors: "✂️" };
-const SANS = "'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif";
-const MONO = "'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace";
 
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -61,112 +60,179 @@ if (title !== undefined) {
     data.rounds = data.rounds.slice(0, 10);
 
     const line = {
-      win: `**You win!** ${EMOJI[move]} ${cap(move)} beats ${EMOJI[bot]} ${bot}. Nice one 🎉`,
-      loss: `**I win!** ${EMOJI[bot]} ${cap(bot)} beats ${EMOJI[move]} ${move}. Better luck next round 😼`,
-      draw: `**Draw!** We both threw ${EMOJI[move]} ${move}. Great minds…`,
+      win: `**You win!** ${EMOJI[move]} ${cap(move)} beats ${EMOJI[bot]} ${bot}. Nice one 🎉\n\n> \`ERROR: HUMAN WON. REBOOTING PRIDE.EXE…\` — bot`,
+      loss: `**My bot wins!** ${EMOJI[bot]} ${cap(bot)} beats ${EMOJI[move]} ${move}.\n\n> \`GG. TOO EASY. BEEP BOOP.\` — bot`,
+      draw: `**Draw!** You both threw ${EMOJI[move]} ${move}.\n\n> \`DRAW DETECTED. RETRY? [Y/N]\` — bot`,
     }[result];
-    reply = `@${user} threw ${EMOJI[move]} **${move}**, my bot threw ${EMOJI[bot]} **${bot}**.\n\n${line}\n\n` +
-      `Your record: **${p.w}W · ${p.l}L · ${p.d}D** · Global: players ${data.playerWins} – bot ${data.botWins} (${data.draws} draws)\n\n` +
-      `The board on [my profile](https://github.com/${REPO.split("/")[0]}) updates in a minute or so. Want another round? Pick a move there again!`;
+    reply = `@${user} threw ${EMOJI[move]} **${move}** · my bot threw ${EMOJI[bot]} **${bot}**\n\n${line}\n\n` +
+      `Your record: **${p.w}W · ${p.l}L · ${p.d}D** · All players: ${data.playerWins} – bot: ${data.botWins} (${data.draws} draws)\n\n` +
+      `The board on [my profile](https://github.com/${REPO.split("/")[0]}) updates in a minute or so. Pick another move there for a rematch!`;
   }
 }
 writeFileSync(DATA, JSON.stringify(data, null, 2) + "\n");
 if (reply) writeFileSync(REPLY, reply + "\n");
 
-// ---------- hand icons (drawn, so they look the same everywhere) ----------
-const ICON = {
-  rock: `<path d="M-20 7 L-16 -10 L-3 -20 L12 -16 L21 -3 L17 14 L1 21 L-14 17 Z" fill="#f2f2f2" stroke="#0b0b0b" stroke-width="2.5" stroke-linejoin="round"/>
-    <path d="M-8 -6 L0 -2 L3 7 M6 -11 L10 -4" fill="none" stroke="#0b0b0b" stroke-width="2" stroke-linecap="round"/>`,
-  paper: `<g transform="rotate(-8)"><path d="M-15 -20 H8 L16 -12 V20 H-15 Z" fill="#f2f2f2" stroke="#0b0b0b" stroke-width="2.5" stroke-linejoin="round"/>
-    <path d="M8 -20 V-12 H16" fill="none" stroke="#0b0b0b" stroke-width="2"/>
-    <path d="M-9 -8 H9 M-9 0 H9 M-9 8 H4" stroke="#0b0b0b" stroke-width="2" stroke-linecap="round"/></g>`,
-  scissors: `<g fill="none" stroke="#f2f2f2" stroke-width="3.5" stroke-linecap="round">
-    <path d="M-5 8 L12 -21 M5 8 L-12 -21"/><circle cx="-9" cy="14" r="7"/><circle cx="9" cy="14" r="7"/></g>
-    <circle r="2.2" cx="0" cy="-1" fill="#0b0b0b" stroke="#f2f2f2" stroke-width="1.5"/>`,
-};
-const iconOnDisc = (m, scale = 1) =>
-  `<g transform="scale(${scale})"><circle r="34" fill="#0b0b0b" stroke="#f2f2f2" stroke-width="2"/>${ICON[m]}</g>`;
+// ---------- pixel board ----------
+const WHITE = "#f5f5f5", GREY = "#8a8a8a", DIM = "#3a3a3a", BG = "#0b0b0b";
+const HP = { ...HAND_PAL, K: "#4a4a4a" };
+const T = 5; // seconds per jan-ken-pon loop
+const STEP = "animation-timing-function:steps(1,end)";
 
-// ---------- board ----------
+// seeded RNG so redraws don't create noisy diffs
+let seed = 11;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+function stars(W, H, count) {
+  let out = "";
+  for (let i = 0; i < count; i++) {
+    const x = Math.round(rnd() * (W - 20) / 5) * 5 + 10, y = Math.round(rnd() * (H - 90) / 5) * 5 + 10;
+    const d = (1.5 + rnd() * 2.5).toFixed(1), dl = (-rnd() * 4).toFixed(1);
+    const big = rnd() > 0.7;
+    out += big
+      ? `<path class="tw" style="animation-duration:${d}s;animation-delay:${dl}s" fill="${GREY}" d="M${x} ${y - 5}h3v5h5v3h-5v5h-3v-5h-5v-3h5z"/>`
+      : `<rect class="tw" style="animation-duration:${d}s;animation-delay:${dl}s" x="${x}" y="${y}" width="3" height="3" fill="${DIM}"/>`;
+  }
+  return out;
+}
+function petals(W, H, count) {
+  let out = "";
+  for (let i = 0; i < count; i++) {
+    const x = Math.round(rnd() * W), d = (6 + rnd() * 6).toFixed(1), dl = (-rnd() * 12).toFixed(1);
+    const c = rnd() > 0.5 ? "#f7a8c6" : "#d0d0d0";
+    out += `<g transform="translate(${x} 0)"><path class="pf" style="animation-duration:${d}s;animation-delay:${dl}s;--h:${H + 20}px" fill="${c}" d="M0 0h4v4h-4zM4 4h4v4h-4z"/></g>`;
+  }
+  return out;
+}
+const flip = (inner, x, w) => `<g transform="translate(${x + w} 0) scale(-1 1)">${inner}</g>`;
+
 function board() {
-  const W = 850, H = 300;
+  const W = 850, H = 410;
   const last = data.rounds[0];
-  const banner = !last
-    ? "No rounds yet — be the first to play!"
-    : last.result === "win" ? `@${last.user} wins this round!`
-    : last.result === "loss" ? `Ananth's bot wins this round!` : "It's a draw!";
-  const left = last ? last.move : "rock";
-  const right = last ? last.bot : "rock";
-  const who = last ? `@${last.user}` : "you";
-  const pct = (n) => (data.total ? Math.round((n / data.total) * 100) : 0);
-  const stat = (x, value, label) => `<g transform="translate(${x} 248)">
-      <text class="mono" x="0" y="0" text-anchor="middle" font-size="22" font-weight="700" fill="#f5f5f5">${value}</text>
-      <text x="0" y="20" text-anchor="middle" font-size="11" letter-spacing="2" fill="#8a8a8a">${label}</text></g>`;
+  const move = last ? last.move : "rock", bot = last ? last.bot : "rock";
+  const res = last ? last.result : null;
+  const user = last ? "@" + (last.user.length > 14 ? last.user.slice(0, 13) + "." : last.user) : "YOU?";
+  const resultText = !last ? "YOUR TURN!" : res === "win" ? "YOU WIN!" : res === "loss" ? "BOT WINS!" : "DRAW!";
+  const before = last ? "BEEP. READY TO LOSE?" : "BEEP. PICK A MOVE!";
+  const after = !last ? "WAITING FOR HUMAN..." : res === "win" ? "ERROR: YOU WON?!" : res === "loss" ? "GG. TOO EASY. BEEP." : "DRAW. RETRY? Y/N";
+  const fx = !last ? "neutral" : res === "win" ? "error" : res === "loss" ? "smug" : "flat";
+  const tot = Math.max(1, data.total);
+  const pw = Math.round((data.playerWins / tot) * 290), bw = Math.round((data.botWins / tot) * 290);
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="${SANS}">
+  // bot window
+  const wx = 572, wy = 118, ww = 250, wh = 226;
+  const mx = wx + (ww - 144) / 2, my = wy + 34;
+  const bubbleX = 438, bubbleY = 66, bubbleW = 396, bubbleH = 36;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges">
   <style>
-    .mono{font-family:${MONO}}
-    .shakeL{animation:shake 2.4s ease-in-out infinite}
-    .shakeR{animation:shake 2.4s ease-in-out infinite;animation-delay:.05s}
-    @keyframes shake{0%,8%{transform:translateY(0)}12%{transform:translateY(-16px)}18%{transform:translateY(0)}24%{transform:translateY(-16px)}30%{transform:translateY(0)}36%{transform:translateY(-16px)}42%,100%{transform:translateY(0)}}
-    .pop{transform-box:fill-box;transform-origin:center;animation:pop 2.4s ease-out infinite}
-    @keyframes pop{0%,40%{transform:scale(1)}48%{transform:scale(1.18)}56%,100%{transform:scale(1)}}
-    .vs{animation:vs 2.4s ease-in-out infinite}
-    @keyframes vs{0%,40%{opacity:.35}50%,100%{opacity:1}}
-    .msg{animation:msg 2.4s ease-out infinite}
-    @keyframes msg{0%,42%{opacity:0;transform:translateY(6px)}55%,100%{opacity:1;transform:translateY(0)}}
-    .scan{animation:scan 6s linear infinite}
-    @keyframes scan{from{transform:translateX(-200px)}to{transform:translateX(${W + 200}px)}}
+    .tw{animation:tw 2s steps(1,end) infinite}
+    @keyframes tw{0%{opacity:1}50%{opacity:.15}}
+    .pf{animation:pf linear infinite;animation-timing-function:steps(24,end)}
+    @keyframes pf{from{transform:translate(0,-10px)}to{transform:translate(-60px,var(--h))}}
+    .shake{animation:shake ${T}s infinite;${STEP}}
+    @keyframes shake{0%{transform:translateY(0)}4%{transform:translateY(-16px)}10%{transform:translateY(0)}14%{transform:translateY(-16px)}20%{transform:translateY(0)}24%{transform:translateY(-16px)}30%,100%{transform:translateY(0)}}
+    .pre{animation:pre ${T}s infinite;${STEP}}
+    @keyframes pre{0%{opacity:1}30%,100%{opacity:0}}
+    .post{animation:post ${T}s infinite;${STEP}}
+    @keyframes post{0%{opacity:0}30%,100%{opacity:1}}
+    .jan{animation:jan ${T}s infinite;${STEP}}@keyframes jan{0%{opacity:1}10%,100%{opacity:0}}
+    .ken{animation:ken ${T}s infinite;${STEP}}@keyframes ken{0%{opacity:0}10%{opacity:1}20%,100%{opacity:0}}
+    .pon{animation:pon ${T}s infinite;${STEP}}@keyframes pon{0%{opacity:0}20%{opacity:1}30%,100%{opacity:0}}
+    .res{animation:res ${T}s infinite;${STEP}}
+    @keyframes res{0%{opacity:0}30%{opacity:1}34%{opacity:0}38%{opacity:1}42%{opacity:0}46%,100%{opacity:1}}
+    .bob{animation:bob 1s infinite;${STEP}}@keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    .blink{animation:blink ${T}s infinite;${STEP}}@keyframes blink{0%{opacity:0}12%{opacity:1}15%,100%{opacity:0}}
+    .eyes{animation:eyes ${T}s infinite;${STEP}}@keyframes eyes{0%{opacity:1}12%{opacity:0}15%,100%{opacity:1}}
+    .scanl{animation:scanl 1.5s steps(11,end) infinite}@keyframes scanl{from{transform:translateY(0)}to{transform:translateY(66px)}}
+    .react{animation:${res === "loss" ? "hop" : res === "win" ? "jitter" : "none"} ${T}s infinite;${STEP}}
+    @keyframes hop{0%{transform:translateY(0)}30%{transform:translateY(-15px)}34%{transform:translateY(0)}38%{transform:translateY(-15px)}42%,100%{transform:translateY(0)}}
+    @keyframes jitter{0%{transform:translateX(0)}30%{transform:translateX(-5px)}33%{transform:translateX(5px)}36%{transform:translateX(-5px)}39%{transform:translateX(5px)}42%,100%{transform:translateX(0)}}
+    .vs{animation:vs .8s infinite;${STEP}}@keyframes vs{0%{opacity:1}50%{opacity:.35}}
+    .grow{animation:grow 1.2s steps(10,end) both}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .on{animation:vs 1.2s infinite;${STEP}}
   </style>
   <defs>
-    <clipPath id="cl"><rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="12"/></clipPath>
-    <linearGradient id="sh" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#242424"/></pattern>
+    <clipPath id="cl"><rect x="5" y="5" width="${W - 10}" height="${H - 10}"/></clipPath>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#191919"/></pattern>
   </defs>
-  <rect x=".5" y=".5" width="${W - 1}" height="${H - 1}" rx="12" fill="#0b0b0b" stroke="#333"/>
+  ${pxBox(0, 0, W, H, 5, BG, WHITE)}
   <g clip-path="url(#cl)">
-    <rect width="${W}" height="${H}" fill="url(#dots)"/>
-    <g transform="skewX(-20)"><rect class="scan" width="160" height="${H}" fill="url(#sh)"/></g>
+    <rect x="5" y="5" width="${W - 10}" height="${H - 10}" fill="url(#dots)"/>
+    ${stars(W, H, 34)}
+    ${petals(W, H, 12)}
   </g>
 
-  <text x="28" y="40" font-size="13" letter-spacing="4" fill="#8a8a8a">MINI GAME</text>
-  <text x="28" y="66" font-size="24" font-weight="800" fill="#ffffff">ROCK · PAPER · SCISSORS</text>
-  <text x="${W - 28}" y="40" text-anchor="end" font-size="13" letter-spacing="2" fill="#8a8a8a">ROUND</text>
-  <text class="mono" x="${W - 28}" y="66" text-anchor="end" font-size="24" font-weight="700" fill="#ffffff">#${data.total}</text>
+  ${pxText("ROCK PAPER SCISSORS", 30, 26, 3, WHITE)}
+  ${pxText("VS ANANTH'S BOT", 30, 56, 2, GREY)}
+  ${pxText(`ROUND ${String(data.total).padStart(3, "0")}`, W - 30, 26, 3, WHITE, { anchor: "end" })}
+  <rect class="on" x="${W - 30 - textWidth(`ROUND ${String(data.total).padStart(3, "0")}`, 3) - 18}" y="30" width="9" height="9" fill="#7ee08a"/>
 
-  <g transform="translate(${W / 2 - 200} 140)">
-    <g class="shakeL"><g class="pop">${iconOnDisc(left, 1.15)}</g></g>
-    <text x="0" y="62" text-anchor="middle" font-size="14" fill="#d6d6d6">${esc(who)}</text>
+  <!-- player -->
+  ${pxText("P1", 151, 112, 2, GREY, { anchor: "middle" })}
+  <rect x="103" y="262" width="96" height="5" fill="${DIM}"/>
+  <g class="shake">
+    <g class="pre">${sprite(HANDS.rock, HP, 95, 140, 7)}</g>
+    <g class="post">${sprite(HANDS[move], HP, 95, 140, 7)}</g>
   </g>
-  <text class="vs mono" x="${W / 2}" y="150" text-anchor="middle" font-size="30" font-weight="800" fill="#ffffff">VS</text>
-  <g transform="translate(${W / 2 + 200} 140)">
-    <g class="shakeR"><g class="pop">${iconOnDisc(right, 1.15)}</g></g>
-    <text x="0" y="62" text-anchor="middle" font-size="14" fill="#d6d6d6">Ananth's bot</text>
-  </g>
-  <g class="msg"><text x="${W / 2}" y="104" text-anchor="middle" font-size="15" font-weight="600" fill="#f5f5f5">${esc(banner)}</text></g>
+  ${pxText(user, 151, 282, 2, WHITE, { anchor: "middle" })}
 
-  <rect x="28" y="222" width="${W - 56}" height="1" fill="#333"/>
-  ${stat(W * 0.2, data.total, "GAMES")}
-  ${stat(W * 0.4, `${data.playerWins}`, `PLAYER WINS · ${pct(data.playerWins)}%`)}
-  ${stat(W * 0.6, `${data.botWins}`, `BOT WINS · ${pct(data.botWins)}%`)}
-  ${stat(W * 0.8, data.draws, "DRAWS")}
+  <!-- center -->
+  <g class="jan">${pxText("JAN...", 375, 168, 4, WHITE, { anchor: "middle" })}</g>
+  <g class="ken">${pxText("KEN...", 375, 168, 4, WHITE, { anchor: "middle" })}</g>
+  <g class="pon">${pxText("PON!", 375, 168, 4, WHITE, { anchor: "middle" })}</g>
+  <g class="res">${pxText(resultText, 375, 168, 4, WHITE, { anchor: "middle" })}</g>
+  <g class="vs">${pxText("VS", 375, 220, 6, GREY, { anchor: "middle" })}</g>
+
+  <!-- speech bubble -->
+  ${pxBox(bubbleX, bubbleY, bubbleW, bubbleH, 3, WHITE, WHITE)}
+  <path fill="${WHITE}" d="M${wx + 150} ${bubbleY + bubbleH}h15v5h-5v5h-5v-5h-5z"/>
+  <g class="pre">${pxText(before, bubbleX + bubbleW / 2, bubbleY + 11, 2, BG, { anchor: "middle" })}</g>
+  <g class="post">${pxText(after, bubbleX + bubbleW / 2, bubbleY + 11, 2, BG, { anchor: "middle" })}</g>
+
+  <!-- BOT.EXE window -->
+  ${pxBox(wx, wy, ww, wh, 5, "#141014", WHITE)}
+  <rect x="${wx + 5}" y="${wy + 5}" width="${ww - 10}" height="22" fill="${WHITE}"/>
+  ${pxText("BOT.EXE", wx + 14, wy + 11, 2, BG)}
+  ${pxText("_ X", wx + ww - 14, wy + 11, 2, BG, { anchor: "end" })}
+  <g class="react"><g class="bob">
+    ${sprite(BOT, BOT_PAL, mx, my, 6)}
+    <g class="pre"><g class="eyes">${sprite(BOT_FACES.neutral, BOT_PAL, mx + 30, my + 48, 6)}</g>
+      <g class="blink">${sprite(BOT_FACES.blink, BOT_PAL, mx + 30, my + 48, 6)}</g></g>
+    <g class="post">${sprite(BOT_FACES[fx], BOT_PAL, mx + 30, my + 48, 6)}</g>
+    <rect class="scanl" x="${mx + 30}" y="${my + 48}" width="84" height="6" fill="#7ee08a" opacity=".12"/>
+  </g></g>
+  <g class="shake">
+    <g class="pre">${flip(sprite(HANDS.rock, HP, 0, 214, 5), 486, 80)}</g>
+    <g class="post">${flip(sprite(HANDS[bot], HP, 0, 214, 5), 486, 80)}</g>
+  </g>
+
+  <!-- score bars -->
+  ${pxText(`YOU ${data.playerWins}`, 30, 362, 2, WHITE)}
+  ${pxText(`BOT ${data.botWins}`, W - 30, 362, 2, WHITE, { anchor: "end" })}
+  ${pxText(`GAMES ${data.total}  DRAWS ${data.draws}`, W / 2, 362, 2, GREY, { anchor: "middle" })}
+  ${pxBox(30, 378, 300, 16, 3, "#1c1c1c", GREY)}
+  ${pxBox(W - 330, 378, 300, 16, 3, "#1c1c1c", GREY)}
+  <g transform="translate(35 383)"><rect class="grow" width="${pw}" height="6" fill="${WHITE}"/></g>
+  <g transform="translate(${W - 35} 383) scale(-1 1)"><rect class="grow" width="${bw}" height="6" fill="#f7a8c6"/></g>
 </svg>`;
 }
 
 function button(m) {
-  const W = 260, H = 70;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="${SANS}">
+  const W = 260, H = 84, i = MOVES.indexOf(m);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges">
   <style>
-    .glow{animation:glow 3s ease-in-out infinite;animation-delay:${MOVES.indexOf(m) * 0.4}s}
-    @keyframes glow{0%,100%{stroke-opacity:.35}50%{stroke-opacity:1}}
-    .bob{animation:bob 3s ease-in-out infinite;animation-delay:${MOVES.indexOf(m) * 0.4}s}
-    @keyframes bob{0%,100%{transform:translate(38px,35px) rotate(-6deg)}50%{transform:translate(38px,33px) rotate(6deg)}}
+    .hi{animation:hi 1.8s infinite;animation-timing-function:steps(1,end);animation-delay:${i * 0.6}s}
+    @keyframes hi{0%{opacity:0}60%{opacity:1}}
+    .bob{animation:bob .9s infinite;animation-timing-function:steps(1,end);animation-delay:${i * 0.3}s}
+    @keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    .ar{animation:ar .6s infinite;animation-timing-function:steps(1,end)}@keyframes ar{0%{opacity:1}50%{opacity:0}}
   </style>
-  <rect x="1" y="1" width="${W - 2}" height="${H - 2}" rx="35" fill="#0b0b0b" stroke="#333" stroke-width="1.5"/>
-  <rect class="glow" x="1" y="1" width="${W - 2}" height="${H - 2}" rx="35" fill="none" stroke="#fff" stroke-width="1.5"/>
-  <g class="bob">${iconOnDisc(m, 0.72)}</g>
-  <text x="76" y="33" font-size="20" font-weight="800" letter-spacing="2" fill="#ffffff">${m.toUpperCase()}</text>
-  <text x="76" y="52" font-size="12" fill="#8a8a8a">click to throw ${m}</text>
+  ${pxBox(0, 0, W, H, 4, BG, "#4a4a4a")}
+  <g class="hi">${pxBox(0, 0, W, H, 4, "none", WHITE).replace(/<path fill="none"[^>]*\/>/, "")}</g>
+  <g class="bob">${sprite(HANDS[m], HP, 16, 18, 3)}</g>
+  ${pxText(m, 82, 22, 3, WHITE)}
+  <g class="ar">${pxText(">", 82, 52, 2, "#f7a8c6")}</g>
+  ${pxText("THROW IT", 98, 52, 2, GREY)}
 </svg>`;
 }
 

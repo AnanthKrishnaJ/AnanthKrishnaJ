@@ -10,7 +10,7 @@
   <img src="https://komarev.com/ghpvc/?username=AnanthKrishnaJ&label=Profile%20views&color=000000&style=for-the-badge" alt="Profile views" />
 </p>
 
-### Hey there, I'm Ananth
+<p align="center"><img src="./assets/pixel/h-about.svg" width="100%" alt="Hey there, I'm Ananth" /></p>
 
 **AI student by day, building anime-flavoured web apps and games by night.**
 
@@ -22,6 +22,10 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 - ✦ Comfortable in HTML, CSS, JavaScript and Python
 
 <p align="center">
+  <img src="./assets/pixel/miko-desk.svg" width="100%" alt="Pixel-art Miko living inside a retro computer, coding at her desk until the build succeeds" />
+</p>
+
+<p align="center">
   <img src="./assets/stats.svg" height="165" alt="Ananth's GitHub stats" />
   <img src="./assets/langs.svg" height="165" alt="Most used languages" />
 </p>
@@ -30,13 +34,13 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
   <img src="./assets/streak.svg" width="92%" alt="Contribution streak" />
 </p>
 
-### ✦ Tools I reach for
+<p align="center"><img src="./assets/pixel/h-tools.svg" width="100%" alt="Tools I reach for" /></p>
 
 <p align="center">
   <img src="./assets/stack.svg" width="100%" alt="HTML, CSS, JavaScript, Python, Git, GitHub, Vercel, Godot, VS Code" />
 </p>
 
-### ✦ Things I've built
+<p align="center"><img src="./assets/pixel/h-built.svg" width="100%" alt="Things I've built" /></p>
 
 <p align="center">
   <a href="https://github.com/AnanthKrishnaJ/eclipse-the-last-kingdom"><img src="./assets/cards/eclipse.svg" width="49%" alt="ECLIPSE: The Last Kingdom" /></a>
@@ -49,7 +53,7 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
   <a href="https://github.com/AnanthKrishnaJ/RPS"><img src="./assets/cards/rps.svg" width="49%" alt="Rock Paper Scissors" /></a>
 </p>
 
-### ✦ Play Rock Paper Scissors with me
+<p align="center"><img src="./assets/pixel/h-game.svg" width="100%" alt="Play Rock Paper Scissors with me" /></p>
 
 <p align="center">
   <img src="./assets/rps/board.svg" width="100%" alt="Rock Paper Scissors scoreboard — the latest round and the all-time score" />
@@ -61,13 +65,13 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
   <a href="https://github.com/AnanthKrishnaJ/AnanthKrishnaJ/issues/new?title=rps%7Cscissors&body=Just%20press%20%22Create%22%20%E2%80%94%20no%20need%20to%20type%20anything.%20My%20bot%20will%20throw%20its%20move%2C%20reply%20here%20and%20close%20this%20issue."><img src="./assets/rps/btn-scissors.svg" width="31%" alt="Throw scissors" /></a>
 </p>
 
-<p align="center"><sub>Pick a move → press <b>Create</b> on the issue that opens → my bot throws back, replies with the result and updates this board in about a minute.</sub></p>
+<p align="center"><sub>Pick a move → press <b>Create</b> on the issue that opens → my little pixel bot throws back, replies with the result and updates this board in about a minute.</sub></p>
 
 <!-- RPS:START -->
 _No rounds yet — be the first to beat my bot!_
 <!-- RPS:END -->
 
-### ✦ Contribution snake
+<p align="center"><img src="./assets/pixel/h-snake.svg" width="100%" alt="Contribution snake" /></p>
 
 <p align="center">
   <picture>
