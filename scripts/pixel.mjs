@@ -52,6 +52,7 @@ const G = {
   "@": [".###.", "#...#", "#.###", "#.#.#", "#.###", "#....", ".###."],
   "/": ["....#", "...#.", "...#.", "..#..", ".#...", ".#...", "#...."],
   "%": ["##..#", "##..#", "...#.", "..#..", ".#...", "#..##", "#..##"],
+  "+": [".....", "..#..", "..#..", "#####", "..#..", "..#..", "....."],
   "_": [".....", ".....", ".....", ".....", ".....", ".....", "#####"],
   ">": ["#....", "##...", "###..", "####.", "###..", "##...", "#...."], // play arrow
   "<": [".....", ".#.#.", "#####", "#####", ".###.", "..#..", "....."], // heart
@@ -260,45 +261,76 @@ export const MIKO_FX = {
 };
 export const FX_PAL = { ...MIKO_PAL, b: "#ff8fb0" };
 
-// ---------- retro computer bot (24x30) for the RPS game ----------
-export const BOT_PAL = { K: "#2a2a2a", W: "#e6e6e6", w: "#bdbdbd", D: "#0e1a12", G: "#7ee08a", R: "#ff6b7a" };
-export const BOT = [
-  "........................",
-  "...........KK...........",
-  "...........KGK..........",
-  "...........KK...........",
-  "...........K............",
-  "..KKKKKKKKKKKKKKKKKKKK..",
-  "..KWWWWWWWWWWWWWWWWWWK..",
-  "..KWKKKKKKKKKKKKKKKKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKDDDDDDDDDDDDDDKWK..",
-  "..KWKKKKKKKKKKKKKKKKWK..",
-  "..KWWWWWWWWWWWWWWWGwWK..",
-  "..KwwwwwwwwwwwwwwwwwwK..",
-  "..KKKKKKKKKKKKKKKKKKKK..",
-  "..........KWWK..........",
-  "..........KwwK..........",
-  "........KKWWWWKK........",
-  ".......KWWWWWWWWK.......",
-  ".......KwwwwwwwwK.......",
-  ".......KKKKKKKKKK.......",
-  "........................",
+// ---------- Miko side-view walk cycle (20x27, facing right, 4 frames) ----------
+const WALK_TOP = [
+  ".....KKK..KKK.......",
+  "....KRRRKKRRRK......",
+  "....KRrRKKRrRK......",
+  "...KKKKYYYYYYKK.....",
+  "..KYYYYYYYhhYYYK....",
+  ".KYYYYYYYYhYYYYYK...",
+  ".KYYYYYYYYYYYYYYYK..",
+  ".KYYyYYYYYYYYYYYYK..",
+  ".KYYyYYYYYYYSYYYYK..",
+  ".KYYyYYYYYYSSSSYK...",
+  ".KYYyYYYYSSSKSSSK...",
+  ".KYyyYYYSSSSEeSSK...",
+  "..KYyYYYSSbbSSSK....",
+  "..KYyYYYYSSSSmK.....",
+  "...KYYKKKsSSSK......",
+  "....KK..KKKKK.......",
 ];
-// faces are 14x11, drawn inside the screen (offset col 5, row 8)
-export const BOT_FACES = {
-  neutral: ["", "", "..GG....GG...", "..GG....GG...", "..GG....GG...", "", "", "", "...GGGGGG....", "", ""],
-  blink: ["", "", "", "", "..GG....GG...", "", "", "", "...GGGGGG....", "", ""],
-  smug: ["", "", "..GG....GG...", ".G..G..G..G..", "", "", "..G......G...", "...GGGGGG....", "", "", ""],
-  error: ["", ".R..R..R..R..", "..RR....RR...", ".R..R..R..R..", "", "", "", "..R.R.R.R.R..", "...R.R.R.R...", "", ""],
-  flat: ["", "", "", ".GGG...GGG...", "", "", "", "", "..GGGGGGGG...", "", ""],
+const BODY = {
+  // arm back
+  back: [
+    "......KWWBBK........",
+    ".....KWWWBbBK.......",
+    "....KSKWWWBK........",
+    "....KSKWWWWK........",
+    "....KPPQPPQPK.......",
+    "...KQQQQQQQQK.......",
+    "....KKKKKKKK........",
+  ],
+  // arm at side
+  mid: [
+    "......KWWBBK........",
+    ".....KWWWBbBK.......",
+    ".....KWWKWBK........",
+    ".....KWWKSKK........",
+    "....KPPQPKKPK.......",
+    "...KQQQQQQQQK.......",
+    "....KKKKKKKK........",
+  ],
+  // arm forward
+  fwd: [
+    "......KWWBBK........",
+    ".....KWWWBbBK.......",
+    ".....KWWWWKKK.......",
+    ".....KWWWWKSSK......",
+    "....KPPQPPQKK.......",
+    "...KQQQQQQQQK.......",
+    "....KKKKKKKK........",
+  ],
 };
+const LEGS = {
+  apartA: ["....KsK..KSK........", "...KsK....KSK.......", "..KLLK....KLLK......", "...................."],
+  passing: [".....KsKSK..........", ".....KsKSK..........", ".....KLKLLK.........", "...................."],
+  apartB: ["....KSK..KsK........", "...KSK....KsK.......", "..KLLK....KLLK......", "...................."],
+};
+const pad = (r) => r.padEnd(20, ".").slice(0, 20);
+const frame = (body, legs, up) => {
+  const f = [...WALK_TOP, ...BODY[body], ...LEGS[legs]].map(pad);
+  return up ? [...f.slice(1), "...................."] : f;
+};
+// contact (arm back) -> passing (up) -> contact (arm fwd) -> passing (up)
+export const MIKO_WALK = [frame("back", "apartA", false), frame("mid", "passing", true), frame("fwd", "apartB", false), frame("mid", "passing", true)];
+
+/** 4-frame walk cycle group; `dur` seconds per full cycle. Needs walkCss(). */
+export function walker(x, y, s, cls = "") {
+  return `<g${cls ? ` class="${cls}"` : ""}>` +
+    MIKO_WALK.map((f, i) => `<g class="wf wf${i}">${sprite(f, MIKO_PAL, x, y, s)}</g>`).join("") + `</g>`;
+}
+export const walkCss = (dur = 0.6) =>
+  `.wf{opacity:0;animation:wf ${dur}s infinite;animation-timing-function:steps(1,end)}` +
+  MIKO_WALK.map((_, i) => `.wf${i}{animation-delay:${-(dur * (4 - i)) / 4}s}`).join("") +
+  `@keyframes wf{0%{opacity:1}25%,100%{opacity:0}}`;

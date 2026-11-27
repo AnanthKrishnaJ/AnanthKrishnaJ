@@ -5,6 +5,7 @@
 import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderWalk, WALK_FILE } from "./miko-walk.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "assets");
@@ -513,6 +514,8 @@ try {
     write("langs.svg", langsCard(langs, true));
     const cal = u.contributionsCollection.contributionCalendar;
     write("streak.svg", streakCard({ total: cal.totalContributions, ...streaks(cal.weeks) }));
+    // pixel Miko eating the contribution graph (replaces the snake)
+    writeFileSync(WALK_FILE, renderWalk(cal.weeks, cal.totalContributions).trim() + "\n");
     console.log(`✓ stats: ★${stars} commits ${commits} PRs ${prs} issues ${issues} contrib ${contrib}; langs ${langs.map((l) => l.name).join(", ")}`);
   }
 } catch (e) {
