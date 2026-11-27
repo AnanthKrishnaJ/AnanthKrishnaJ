@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="70" viewBox="0 0 260 70" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif">
+  <style>
+    .glow{animation:glow 3s ease-in-out infinite;animation-delay:0s}
+    @keyframes glow{0%,100%{stroke-opacity:.35}50%{stroke-opacity:1}}
+    .bob{animation:bob 3s ease-in-out infinite;animation-delay:0s}
+    @keyframes bob{0%,100%{transform:translate(38px,35px) rotate(-6deg)}50%{transform:translate(38px,33px) rotate(6deg)}}
+  </style>
+  <rect x="1" y="1" width="258" height="68" rx="35" fill="#0b0b0b" stroke="#333" stroke-width="1.5"/>
+  <rect class="glow" x="1" y="1" width="258" height="68" rx="35" fill="none" stroke="#fff" stroke-width="1.5"/>
+  <g class="bob"><g transform="scale(0.72)"><circle r="34" fill="#0b0b0b" stroke="#f2f2f2" stroke-width="2"/><path d="M-20 7 L-16 -10 L-3 -20 L12 -16 L21 -3 L17 14 L1 21 L-14 17 Z" fill="#f2f2f2" stroke="#0b0b0b" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-8 -6 L0 -2 L3 7 M6 -11 L10 -4" fill="none" stroke="#0b0b0b" stroke-width="2" stroke-linecap="round"/></g></g>
+  <text x="76" y="33" font-size="20" font-weight="800" letter-spacing="2" fill="#ffffff">ROCK</text>
+  <text x="76" y="52" font-size="12" fill="#8a8a8a">click to throw rock</text>
+</svg>

@@ -1,0 +1,8 @@
+{
+  "total": 0,
+  "playerWins": 0,
+  "botWins": 0,
+  "draws": 0,
+  "rounds": [],
+  "players": {}
+}

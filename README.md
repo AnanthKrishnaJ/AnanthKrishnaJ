@@ -49,6 +49,24 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
   <a href="https://github.com/AnanthKrishnaJ/RPS"><img src="./assets/cards/rps.svg" width="49%" alt="Rock Paper Scissors" /></a>
 </p>
 
+### ✦ Play Rock Paper Scissors with me
+
+<p align="center">
+  <img src="./assets/rps/board.svg" width="100%" alt="Rock Paper Scissors scoreboard — the latest round and the all-time score" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/AnanthKrishnaJ/AnanthKrishnaJ/issues/new?title=rps%7Crock&body=Just%20press%20%22Create%22%20%E2%80%94%20no%20need%20to%20type%20anything.%20My%20bot%20will%20throw%20its%20move%2C%20reply%20here%20and%20close%20this%20issue."><img src="./assets/rps/btn-rock.svg" width="31%" alt="Throw rock" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/AnanthKrishnaJ/issues/new?title=rps%7Cpaper&body=Just%20press%20%22Create%22%20%E2%80%94%20no%20need%20to%20type%20anything.%20My%20bot%20will%20throw%20its%20move%2C%20reply%20here%20and%20close%20this%20issue."><img src="./assets/rps/btn-paper.svg" width="31%" alt="Throw paper" /></a>
+  <a href="https://github.com/AnanthKrishnaJ/AnanthKrishnaJ/issues/new?title=rps%7Cscissors&body=Just%20press%20%22Create%22%20%E2%80%94%20no%20need%20to%20type%20anything.%20My%20bot%20will%20throw%20its%20move%2C%20reply%20here%20and%20close%20this%20issue."><img src="./assets/rps/btn-scissors.svg" width="31%" alt="Throw scissors" /></a>
+</p>
+
+<p align="center"><sub>Pick a move → press <b>Create</b> on the issue that opens → my bot throws back, replies with the result and updates this board in about a minute.</sub></p>
+
+<!-- RPS:START -->
+_No rounds yet — be the first to beat my bot!_
+<!-- RPS:END -->
+
 ### ✦ Contribution snake
 
 <p align="center">

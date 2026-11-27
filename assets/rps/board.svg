@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="300" viewBox="0 0 850 300" font-family="'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif">
+  <style>
+    .mono{font-family:'Fira Code', 'JetBrains Mono', Consolas, 'DejaVu Sans Mono', monospace}
+    .shakeL{animation:shake 2.4s ease-in-out infinite}
+    .shakeR{animation:shake 2.4s ease-in-out infinite;animation-delay:.05s}
+    @keyframes shake{0%,8%{transform:translateY(0)}12%{transform:translateY(-16px)}18%{transform:translateY(0)}24%{transform:translateY(-16px)}30%{transform:translateY(0)}36%{transform:translateY(-16px)}42%,100%{transform:translateY(0)}}
+    .pop{transform-box:fill-box;transform-origin:center;animation:pop 2.4s ease-out infinite}
+    @keyframes pop{0%,40%{transform:scale(1)}48%{transform:scale(1.18)}56%,100%{transform:scale(1)}}
+    .vs{animation:vs 2.4s ease-in-out infinite}
+    @keyframes vs{0%,40%{opacity:.35}50%,100%{opacity:1}}
+    .msg{animation:msg 2.4s ease-out infinite}
+    @keyframes msg{0%,42%{opacity:0;transform:translateY(6px)}55%,100%{opacity:1;transform:translateY(0)}}
+    .scan{animation:scan 6s linear infinite}
+    @keyframes scan{from{transform:translateX(-200px)}to{transform:translateX(1050px)}}
+  </style>
+  <defs>
+    <clipPath id="cl"><rect x=".5" y=".5" width="849" height="299" rx="12"/></clipPath>
+    <linearGradient id="sh" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#242424"/></pattern>
+  </defs>
+  <rect x=".5" y=".5" width="849" height="299" rx="12" fill="#0b0b0b" stroke="#333"/>
+  <g clip-path="url(#cl)">
+    <rect width="850" height="300" fill="url(#dots)"/>
+    <g transform="skewX(-20)"><rect class="scan" width="160" height="300" fill="url(#sh)"/></g>
+  </g>
+
+  <text x="28" y="40" font-size="13" letter-spacing="4" fill="#8a8a8a">MINI GAME</text>
+  <text x="28" y="66" font-size="24" font-weight="800" fill="#ffffff">ROCK · PAPER · SCISSORS</text>
+  <text x="822" y="40" text-anchor="end" font-size="13" letter-spacing="2" fill="#8a8a8a">ROUND</text>
+  <text class="mono" x="822" y="66" text-anchor="end" font-size="24" font-weight="700" fill="#ffffff">#0</text>
+
+  <g transform="translate(225 140)">
+    <g class="shakeL"><g class="pop"><g transform="scale(1.15)"><circle r="34" fill="#0b0b0b" stroke="#f2f2f2" stroke-width="2"/><path d="M-20 7 L-16 -10 L-3 -20 L12 -16 L21 -3 L17 14 L1 21 L-14 17 Z" fill="#f2f2f2" stroke="#0b0b0b" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-8 -6 L0 -2 L3 7 M6 -11 L10 -4" fill="none" stroke="#0b0b0b" stroke-width="2" stroke-linecap="round"/></g></g></g>
+    <text x="0" y="62" text-anchor="middle" font-size="14" fill="#d6d6d6">you</text>
+  </g>
+  <text class="vs mono" x="425" y="150" text-anchor="middle" font-size="30" font-weight="800" fill="#ffffff">VS</text>
+  <g transform="translate(625 140)">
+    <g class="shakeR"><g class="pop"><g transform="scale(1.15)"><circle r="34" fill="#0b0b0b" stroke="#f2f2f2" stroke-width="2"/><path d="M-20 7 L-16 -10 L-3 -20 L12 -16 L21 -3 L17 14 L1 21 L-14 17 Z" fill="#f2f2f2" stroke="#0b0b0b" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-8 -6 L0 -2 L3 7 M6 -11 L10 -4" fill="none" stroke="#0b0b0b" stroke-width="2" stroke-linecap="round"/></g></g></g>
+    <text x="0" y="62" text-anchor="middle" font-size="14" fill="#d6d6d6">Ananth's bot</text>
+  </g>
+  <g class="msg"><text x="425" y="104" text-anchor="middle" font-size="15" font-weight="600" fill="#f5f5f5">No rounds yet — be the first to play!</text></g>
+
+  <rect x="28" y="222" width="794" height="1" fill="#333"/>
+  <g transform="translate(170 248)">
+      <text class="mono" x="0" y="0" text-anchor="middle" font-size="22" font-weight="700" fill="#f5f5f5">0</text>
+      <text x="0" y="20" text-anchor="middle" font-size="11" letter-spacing="2" fill="#8a8a8a">GAMES</text></g>
+  <g transform="translate(340 248)">
+      <text class="mono" x="0" y="0" text-anchor="middle" font-size="22" font-weight="700" fill="#f5f5f5">0</text>
+      <text x="0" y="20" text-anchor="middle" font-size="11" letter-spacing="2" fill="#8a8a8a">PLAYER WINS · 0%</text></g>
+  <g transform="translate(510 248)">
+      <text class="mono" x="0" y="0" text-anchor="middle" font-size="22" font-weight="700" fill="#f5f5f5">0</text>
+      <text x="0" y="20" text-anchor="middle" font-size="11" letter-spacing="2" fill="#8a8a8a">BOT WINS · 0%</text></g>
+  <g transform="translate(680 248)">
+      <text class="mono" x="0" y="0" text-anchor="middle" font-size="22" font-weight="700" fill="#f5f5f5">0</text>
+      <text x="0" y="20" text-anchor="middle" font-size="11" letter-spacing="2" fill="#8a8a8a">DRAWS</text></g>
+</svg>
