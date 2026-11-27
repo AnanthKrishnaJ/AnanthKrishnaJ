@@ -22,9 +22,58 @@ I love turning ideas into single-file HTML pages you can open anywhere: study to
 - ✦ Comfortable in HTML, CSS, JavaScript and Python
 
 <p align="center">
-  <a href="https://ananthkrishnaj.github.io/AnanthKrishnaJ/miko/"><img src="./assets/pixel/miko-desk.svg" width="100%" alt="Pixel-art Miko living inside a retro computer, coding at her desk until the build succeeds. Tap to interact with her." /></a>
-  <br><sub>👆 <b><a href="https://ananthkrishnaj.github.io/AnanthKrishnaJ/miko/">Tap Miko</a></b> to pat, poke or bribe her with coffee</sub>
+  <img src="./assets/pixel/miko-desk.svg" width="100%" alt="Pixel-art Miko living inside a retro computer, coding at her desk until the build succeeds" />
 </p>
+
+<p align="center"><img src="./assets/pixel/h-talk.svg" width="100%" alt="Talk to Miko" /></p>
+
+<p align="center"><img src="./assets/pixel/talk/hello.svg" width="100%" alt="Miko: ...What? Pick something below. N-not that I care what you do." /></p>
+
+<details>
+<summary><b>🫳 Pat her head</b></summary>
+<p align="center"><img src="./assets/pixel/talk/pat1.svg" width="100%" alt="Miko: H-hey! Who said you could pat me?!" /></p>
+<details>
+<summary><b>🫳 Pat her again</b></summary>
+<p align="center"><img src="./assets/pixel/talk/pat2.svg" width="100%" alt="Miko: ...Fine. One more. It's not like I like it or anything!" /></p>
+<details>
+<summary><b>🫳 Just one more…</b></summary>
+<p align="center"><img src="./assets/pixel/talk/pat3.svg" width="100%" alt="Miko crashes: Error... heart overflow... b-baka!!" /></p>
+</details>
+</details>
+</details>
+
+<details>
+<summary><b>👉 Poke her cheek</b></summary>
+<p align="center"><img src="./assets/pixel/talk/poke1.svg" width="100%" alt="Miko: Hey! Stop poking me. I'm not a button!" /></p>
+<details>
+<summary><b>👉 Poke her again</b></summary>
+<p align="center"><img src="./assets/pixel/talk/poke2.svg" width="100%" alt="Miko: Poke me again and I'll delete all your commits." /></p>
+<details>
+<summary><b>👉 Poke. Her. Again.</b></summary>
+<p align="center"><img src="./assets/pixel/talk/poke3.svg" width="100%" alt="Miko glitches: Segfault (core dumped). Are you happy now?!" /></p>
+</details>
+</details>
+</details>
+
+<details>
+<summary><b>🎀 Touch her ribbons</b></summary>
+<p align="center"><img src="./assets/pixel/talk/ribbon.svg" width="100%" alt="Miko: Don't touch the ribbons! They're not antennas!" /></p>
+</details>
+
+<details>
+<summary><b>☕ Give her coffee</b></summary>
+<p align="center"><img src="./assets/pixel/talk/coffee.svg" width="100%" alt="Miko: C-coffee? For me? ...Thanks. I guess." /></p>
+</details>
+
+<details>
+<summary><b>💬 Compliment her</b></summary>
+<p align="center"><img src="./assets/pixel/talk/praise1.svg" width="100%" alt="Miko: Y-you can't just say that to someone!" /></p>
+<details>
+<summary><b>💬 Say it again</b></summary>
+<p align="center"><img src="./assets/pixel/talk/praise2.svg" width="100%" alt="Miko: ...I'm saving that in my logs. F-for debugging. No other reason." /></p>
+</details>
+</details>
+
 
 <p align="center">
   <img src="./assets/stats.svg" height="165" alt="Ananth's GitHub stats" />

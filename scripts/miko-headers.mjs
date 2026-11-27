@@ -65,6 +65,13 @@ const headers = {
      @keyframes peek{0%{transform:translateY(60px)}20%{transform:translateY(40px)}25%{transform:translateY(20px)}30%{transform:translateY(0)}75%{transform:translateY(20px)}80%{transform:translateY(40px)}85%,100%{transform:translateY(60px)}}
      .ex{animation:ex 4s infinite;${STEP}}@keyframes ex{0%{opacity:0}32%{opacity:1}36%{opacity:0}40%{opacity:1}72%,100%{opacity:0}}`),
 
+  // talk to Miko: she waits with a "?" bubble
+  talk: frame("TALK TO MIKO", `
+    ${pxBox(640, 16, 40, 30, 2, WHITE, WHITE)}<path fill="${WHITE}" d="M676 34h8v4h-4v4h-4z"/>
+    <g class="ar">${pxText("?", 654, 24, 2, BG)}</g>
+    <g transform="translate(700 12)"><g class="bob">${miko(0, 0, "pout")}${blinkLayer(0, 0)}</g></g>
+    ${pxText("TAP BELOW", 540, 56, 2, GREY)}`),
+
   // work-in-progress: Miko with a hard hat and a loading bar
   wip: frame("IN PROGRESS", `
     <g transform="translate(700 12)"><g class="bob">${miko(0, 0)}<path fill="#e0c060" d="M8 0h32v4h4v6h-40v-6h4z"/><rect x="2" y="8" width="44" height="4" fill="#b08a20"/></g></g>
