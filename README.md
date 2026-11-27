@@ -1,9 +1,5 @@
 <p align="center">
-  <img src="./assets/hero.svg" width="100%" alt="Ananth Krishna J — AI student, web builder, game maker, anime enjoyer" />
-</p>
-
-<p align="center">
-  <img src="./assets/typing.svg" width="90%" alt="Artificial Intelligence student @ KTU | I build anime-flavoured web apps & games | Currently forging ECLIPSE: The Last Kingdom" />
+  <img src="./assets/pixel/hero.svg" width="100%" alt="ANANTH KRISHNA J — pixel game title screen: AI student @ KTU, game maker, web builder, anime enjoyer. Miko waves from a rooftop over a dusk city." />
 </p>
 
 <p align="center">
